@@ -24,6 +24,7 @@
     "bootstrap": "^3.3.5",
     "express": "^4.13.3",
     "http-status": "^0.2.0",
-    "jquery": "^2.1.4"
+    "jquery": "^2.1.4",
+    "mongodb": "^2.0.45"
   }
 }

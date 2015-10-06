@@ -1,25 +1,49 @@
 "use strict";
 var express = require("express"),
     bodyParser = require("body-parser"),
-    status = require('http-status'),
-    router = express.Router();
+    mongodb = require("mongodb"),
+    status = require("http-status"),
+    phonebookCollection = null,
+    router = express.Router(),
+    defaultFieldFilter = {
+        _id: 0
+    };
 
-var mockList = [{
-    name: "Name",
-    lastName: "Last name",
-    number: "+48 123 456 789"
-        }, {
-    name: "Name2",
-    lastName: "LastName",
-    number: "+48 456 456 789"
-}];
+
 
 router.use(bodyParser.json());
 
-router.get("/", function (request, response) {
-    response.status(status.OK).header("Content-Type", "application/json").send(
-        mockList
-    );
+mongodb.MongoClient.connect("mongodb://localhost:27017/studentsDb", function (error, db) {
+    if (error) throw error;
+    phonebookCollection = db.collection("phonebook");
 });
+
+router.get("/", function (request, response) {
+    phonebookCollection.find({}, defaultFieldFilter).toArray(function (error, collection) {
+        if (error) throw error;
+        response.status(status.OK).header("Content-Type", "application/json").send(collection);
+    });
+});
+
+router.get("/dataAdd", function (request, response) {
+    var mockList = [{
+        name: "John",
+        lastName: "Smith",
+        number: "+48 123 456 789"
+        }, {
+        name: "Adam",
+        lastName: "Smith",
+        number: "+48 456 456 789"
+    }];
+    phonebookCollection.insert(mockList[0]);
+    phonebookCollection.insert(mockList[1]);
+    response.status(status.OK).header("Content-Type", "text/plain").send("Added " + mockList.length + " rows");
+});
+
+router.get("/eraseDatabase", function (request, response) {
+    phonebookCollection.remove({});
+    response.status(status.OK).header("Content-Type", "text/plain").send("Removed succesfully");
+});
+
 
 module.exports = router;
