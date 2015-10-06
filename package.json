@@ -1,0 +1,19 @@
+{
+  "name": "rest-phonebook",
+  "version": "1.0.0",
+  "description": "REST Phonebook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kauczuk79/rest-phonebook.git"
+  },
+  "author": "kauczuk79",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kauczuk79/rest-phonebook/issues"
+  },
+  "homepage": "https://github.com/kauczuk79/rest-phonebook#readme"
+}
