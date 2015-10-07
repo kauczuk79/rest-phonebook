@@ -2,14 +2,13 @@
 var express = require("express"),
     bodyParser = require("body-parser"),
     mongodb = require("mongodb"),
-
     status = require("http-status"),
-    phonebookCollection = null,
     router = express.Router(),
+    phonebookCollection = null,
     defaultFieldFilter = {};
 
 router.use(bodyParser.json());
-mongodb.MongoClient.connect("mongodb://localhost:27017/studentsDb", function (error, db) {
+mongodb.MongoClient.connect("mongodb://localhost:27017/phonebookDb", function (error, db) {
     if (error) throw error;
     phonebookCollection = db.collection("phonebook");
 });
@@ -23,15 +22,6 @@ router.get("/", function (request, response) {
 
 router.post("/", function (request, response) {
     phonebookCollection.insert(request.body);
-    response.status(status.OK).header("Content-Type", "text/plain").send();
-});
-
-router.delete("/:id", function (request, response) {
-    var id = request.params.id,
-        query = {
-            "_id": mongodb.ObjectID(id)
-        };
-    phonebookCollection.remove(query);
     response.status(status.OK).header("Content-Type", "text/plain").send();
 });
 
@@ -55,6 +45,15 @@ router.put("/", function (request, response) {
             response.status(status.OK).header("Content-Type", "text/plain").send();
         }
     });
+});
+
+router.delete("/:id", function (request, response) {
+    var id = request.params.id,
+        query = {
+            "_id": mongodb.ObjectID(id)
+        };
+    phonebookCollection.remove(query);
+    response.status(status.OK).header("Content-Type", "text/plain").send();
 });
 
 router.get("/:id", function (request, response) {
