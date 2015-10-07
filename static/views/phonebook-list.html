@@ -4,35 +4,38 @@
     </span>
     <input type="text" class="form-control" placeholder="Filter" ng-model="searchText">
 </div>
-<div class="table-responsive">
-    <table class="table table-stripped table-hover table-condensed">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Last name</th>
-                <th>Telephone number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="phonebookEntry in phonebook | filter:searchText">
-                <td>{{phonebookEntry.name}}</td>
-                <td>{{phonebookEntry.lastName}}</td>
-                <td>{{phonebookEntry.number}}</td>
-                <td>
-                    <div class="btn-group btn-group-xs" role="group">
-                        <button class="btn btn-default" aria-label="Edit" type="button" ng-click="showEntry(phonebookEntry._id)">
-                            <span class="glyphicon glyphicon-search"></span> <span class="hidden-xs">View</span>
-                        </button>
-                        <button class="btn btn-default" aria-label="Edit" type="button" ng-click="editEntry(phonebookEntry._id)">
-                            <span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">Edit</span>
-                        </button>
-                        <button class="btn btn-default" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
-                            <span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Remove</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<br/>
+<div class="panel panel-default">
+    <div class="table-responsive">
+        <table class="table table-stripped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last name</th>
+                    <th>Telephone number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="phonebookEntry in phonebook | filter:searchText">
+                    <td>{{phonebookEntry.name}}</td>
+                    <td>{{phonebookEntry.lastName}}</td>
+                    <td>{{phonebookEntry.number}}</td>
+                    <td>
+                        <div class="btn-group btn-group-xs" role="group">
+                            <button class="btn btn-default" aria-label="Edit" type="button" ng-click="showEntry(phonebookEntry._id)" data-toggle="tooltip" data-placement="bottom" title="View">
+                                <span class="glyphicon glyphicon-search"></span> <span class="hidden-xs">View</span>
+                            </button>
+                            <button class="btn btn-default" aria-label="Edit" type="button" ng-click="editEntry(phonebookEntry._id)" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">Edit</span>
+                            </button>
+                            <button class="btn btn-default" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)" data-toggle="tooltip" data-placement="bottom" title="Remove">
+                                <span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Remove</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
