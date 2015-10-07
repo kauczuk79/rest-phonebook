@@ -7,7 +7,6 @@ var phonebookControllers = angular.module("PhonebookControllers", []),
 
 phonebookControllers.controller("PhonebookListController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
     $scope.deleteEntry = function (id) {
-        console.log(id);
         $http.delete("/phonebook-api/" + id).success(function (data) {
             var toDelete = $scope.phonebook.filter(function (object) {
                 return object._id == id;
@@ -17,6 +16,9 @@ phonebookControllers.controller("PhonebookListController", ["$scope", "$http", "
         }).error(function (data) {
             console.log("Error" + data);
         });
+    }
+    $scope.editEntry = function (id) {
+        $location.path("/" + id + "/edit");
     }
     $http.get("/phonebook-api").success(function (data) {
         $scope.phonebook = data;
@@ -35,8 +37,18 @@ phonebookControllers.controller("PhonebookAddController", ["$scope", "$http", "$
     }
 }]);
 
-phonebookControllers.controller("PhonebookEditController", ["$scope", "$http", function ($scope, $http) {
+phonebookControllers.controller("PhonebookEditController", ["$scope", "$http", "$routeParams", "$location", function ($scope, $http, $routeParams, $location) {
+    var id = $routeParams.id;
+    $http.get("/phonebook-api/" + id).success(function (data) {
+        $scope.phonebookEntry = data;
+    }).error(function (data) {
+        console.log("Can not download phone entry");
+    });
     $scope.save = function (phonebookEntry) {
-
+        $http.put("/phonebook-api", phonebookEntry, headers).success(function (data) {
+            $location.path("/");
+        }).error(function (data) {
+            console.log("Can not update phone entry");
+        })
     }
 }]);

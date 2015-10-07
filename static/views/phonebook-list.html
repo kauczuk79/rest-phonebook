@@ -20,25 +20,13 @@
                 <td>{{phonebookEntry.lastName}}</td>
                 <td>{{phonebookEntry.number}}</td>
                 <td>
-                    <div class="hidden-xs">
-                        <div class="btn-group btn-group-xs" role="group">
-                            <button class="btn btn-default btn-success" aria-label="Edit" type="button">
-                                <span class="glyphicon glyphicon-pencil"></span> Edit
-                            </button>
-                            <button class="btn btn-default btn-danger" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
-                                <span class="glyphicon glyphicon-remove"></span> Remove
-                            </button>
-                        </div>
-                    </div>
-                    <div class="visible-xs">
-                        <div class="btn-group btn-group-xs" role="group">
-                            <button class="btn btn-default btn-success" aria-label="Edit" type="button">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
-                            <button class="btn btn-default btn-danger" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </div>
+                    <div class="btn-group btn-group-xs" role="group">
+                        <button class="btn btn-default btn-success" aria-label="Edit" type="button" ng-click="editEntry(phonebookEntry._id)">
+                            <span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">Edit</span>
+                        </button>
+                        <button class="btn btn-default btn-danger" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
+                            <span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Remove</span>
+                        </button>
                     </div>
                 </td>
             </tr>

@@ -6,9 +6,7 @@ var express = require("express"),
     status = require("http-status"),
     phonebookCollection = null,
     router = express.Router(),
-    defaultFieldFilter = {
-        // _id: 0
-    };
+    defaultFieldFilter = {};
 
 router.use(bodyParser.json());
 mongodb.MongoClient.connect("mongodb://localhost:27017/studentsDb", function (error, db) {
@@ -37,25 +35,37 @@ router.delete("/:id", function (request, response) {
     response.status(status.OK).header("Content-Type", "text/plain").send();
 });
 
-router.get("/dataAdd", function (request, response) {
-    var mockList = [{
-        name: "John",
-        lastName: "Smith",
-        number: "+48 123 456 789"
-        }, {
-        name: "Adam",
-        lastName: "Smith",
-        number: "+48 456 456 789"
-    }];
-    phonebookCollection.insert(mockList[0]);
-    phonebookCollection.insert(mockList[1]);
-    response.status(status.OK).header("Content-Type", "text/plain").send("Added " + mockList.length + " rows");
+router.put("/", function (request, response) {
+    var json = request.body,
+        query = {
+            "_id": mongodb.ObjectID(json._id)
+        },
+        data = {
+            $set: {
+                name: json.name,
+                lastName: json.lastName,
+                number: json.number
+            }
+        };
+    phonebookCollection.findOneAndUpdate(query, data, function (error, result) {
+        if (error) throw error;
+        if (result == null) {
+            response.status(status.NOT_FOUND).header("Content-Type", "text/plain").send();
+        } else {
+            response.status(status.OK).header("Content-Type", "text/plain").send();
+        }
+    });
 });
 
-router.get("/eraseDatabase", function (request, response) {
-    phonebookCollection.remove({});
-    response.status(status.OK).header("Content-Type", "text/plain").send("Removed succesfully");
+router.get("/:id", function (request, response) {
+    var id = request.params.id,
+        query = {
+            "_id": mongodb.ObjectID(id)
+        };
+    phonebookCollection.find(query, defaultFieldFilter).toArray(function (error, collection) {
+        if (error) throw error;
+        response.status(status.OK).header("Content-Type", "application/json").send(collection[0]);
+    });
 });
-
 
 module.exports = router;
