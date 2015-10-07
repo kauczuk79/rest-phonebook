@@ -7,6 +7,9 @@ phonebookApp.config(["$routeProvider", function ($routeProvider) {
     }).when("/add", {
         templateUrl: "views/phonebook-add.html",
         controller: "PhonebookAddController"
+    }).when("/:number/edit", {
+        templateUrl: "views/phonebook-edit.html",
+        controller: "PhonebookEditController"
     }).otherwise({
         redirectTo: "/"
     });

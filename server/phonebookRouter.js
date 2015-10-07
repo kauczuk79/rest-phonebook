@@ -2,17 +2,15 @@
 var express = require("express"),
     bodyParser = require("body-parser"),
     mongodb = require("mongodb"),
+
     status = require("http-status"),
     phonebookCollection = null,
     router = express.Router(),
     defaultFieldFilter = {
-        _id: 0
+        // _id: 0
     };
 
-
-
 router.use(bodyParser.json());
-
 mongodb.MongoClient.connect("mongodb://localhost:27017/studentsDb", function (error, db) {
     if (error) throw error;
     phonebookCollection = db.collection("phonebook");
@@ -30,10 +28,10 @@ router.post("/", function (request, response) {
     response.status(status.OK).header("Content-Type", "text/plain").send();
 });
 
-router.delete("/:number", function (request, response) {
-    var number = request.params.number,
+router.delete("/:id", function (request, response) {
+    var id = request.params.id,
         query = {
-            number: number
+            "_id": mongodb.ObjectID(id)
         };
     phonebookCollection.remove(query);
     response.status(status.OK).header("Content-Type", "text/plain").send();
