@@ -1,0 +1,39 @@
+<form class="form-horizontal" name="addPhonebookEntry">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Add phone number
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-danger" role="alert" ng-show="addPhonebookEntry.Name.$invalid && addPhonebookEntry.Name.$touched">
+                Name should contains only letters (first should be capital)
+            </div>
+            <div class="form-group">
+                <label for="nameTextBox" class="col-lg-offset-2 col-lg-2 col-md-offset-1 col-md-3 col-sm-4 control-label">Name</label>
+                <div class="col-lg-6 col-md-7 col-sm-8">
+                    <input ng-model="phonebookEntry.name" required ng-pattern="/^([A-Z])([A-Za-z\s]+)$/" name="Name" type="text" class="form-control" id="nameTextBox" placeholder="Name">
+                </div>
+            </div>
+            <div class="alert alert-danger" role="alert" ng-show="addPhonebookEntry.LastName.$invalid && addPhonebookEntry.LastName.$touched">
+                Last name should contains only letters (first should be capital)
+            </div>
+            <div class="form-group">
+                <label for="lastnameTextBox" class="col-lg-offset-2 col-lg-2 col-md-offset-1 col-md-3 col-sm-4 control-label">Last name</label>
+                <div class="col-lg-6 col-md-7 col-sm-8">
+                    <input ng-model="phonebookEntry.lastName" required ng-pattern="/^([A-Z])([A-Za-z\s-]+)$/" name="LastName" type="text" class="form-control" id="lastnameTextBox" placeholder="Last name">
+                </div>
+            </div>
+            <div class="alert alert-danger" role="alert" ng-show="addPhonebookEntry.Number.$invalid && addPhonebookEntry.Number.$touched">
+                Telephone number should be in format +XX (XX) XXXXXXX or +XX XXXXXXXXX
+            </div>
+            <div class="form-group">
+                <label for="numberTextBox" class="col-lg-offset-2 col-lg-2 col-md-offset-1 col-md-3 col-sm-4 control-label">Telephone number</label>
+                <div class="col-lg-6 col-md-7 col-sm-8">
+                    <input ng-model="phonebookEntry.number" required ng-minlength="13" ng-pattern="/^(\+\d{1,2}\s)(\(\d{1,3}\)\s)?([0-9]{7,})$/" name="Number" type="text" class="form-control" id="numberTextBox" placeholder="Telephone number">
+                </div>
+            </div>
+            <div class="col-lg-offset-4 col-md-offset-4 col-sm-offset-4 btn-group" role="group">
+                <button ng-disabled="addPhonebookEntry.$invalid" type="submit" class="btn btn-primary" ng-click="add(phonebookEntry)">Add</button>
+            </div>
+        </div>
+    </div>
+</form>

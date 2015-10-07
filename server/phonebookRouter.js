@@ -25,6 +25,20 @@ router.get("/", function (request, response) {
     });
 });
 
+router.post("/", function (request, response) {
+    phonebookCollection.insert(request.body);
+    response.status(status.OK).header("Content-Type", "text/plain").send();
+});
+
+router.delete("/:number", function (request, response) {
+    var number = request.params.number,
+        query = {
+            number: number
+        };
+    phonebookCollection.remove(query);
+    response.status(status.OK).header("Content-Type", "text/plain").send();
+});
+
 router.get("/dataAdd", function (request, response) {
     var mockList = [{
         name: "John",
