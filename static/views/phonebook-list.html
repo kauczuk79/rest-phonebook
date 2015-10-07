@@ -21,10 +21,13 @@
                 <td>{{phonebookEntry.number}}</td>
                 <td>
                     <div class="btn-group btn-group-xs" role="group">
-                        <button class="btn btn-default btn-success" aria-label="Edit" type="button" ng-click="editEntry(phonebookEntry._id)">
+                        <button class="btn btn-default" aria-label="Edit" type="button" ng-click="showEntry(phonebookEntry._id)">
+                            <span class="glyphicon glyphicon-search"></span> <span class="hidden-xs">View</span>
+                        </button>
+                        <button class="btn btn-default" aria-label="Edit" type="button" ng-click="editEntry(phonebookEntry._id)">
                             <span class="glyphicon glyphicon-pencil"></span> <span class="hidden-xs">Edit</span>
                         </button>
-                        <button class="btn btn-default btn-danger" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
+                        <button class="btn btn-default" aria-label="Remove" type="button" ng-click="deleteEntry(phonebookEntry._id)">
                             <span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs">Remove</span>
                         </button>
                     </div>
