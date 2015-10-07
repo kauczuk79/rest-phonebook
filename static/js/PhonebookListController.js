@@ -1,24 +1,30 @@
 var phonebookControllers = angular.module("PhonebookControllers");
 
 phonebookControllers.controller("PhonebookListController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+    var updateData = function (response) {
+        $scope.phonebook = response.data;
+    };
+    var downloadError = function (result) {
+        console.log("Can not get phonebook data");
+    };
     $scope.deleteEntry = function (id) {
-        $http.delete("/phonebook-api/" + id).success(function (data) {
+        var removeFromView = function (response) {
             var toDelete = $scope.phonebook.filter(function (object) {
                 return object._id == id;
             });
             var index = $scope.phonebook.indexOf(toDelete);
             $scope.phonebook.splice(index, 1);
-        }).error(function (data) {
-            console.log("Error" + data);
-        });
+        };
+        var deleteError = function (response) {
+            console.log("Can not delete phone entry");
+        }
+        $http.delete("/phonebook-api/" + id).then(removeFromView, deleteError);
     };
     $scope.editEntry = function (id) {
         $location.path("/" + id + "/edit");
     };
     $scope.showEntry = function (id) {
         $location.path("/" + id);
-    }
-    $http.get("/phonebook-api").success(function (data) {
-        $scope.phonebook = data;
-    });
+    };
+    $http.get("/phonebook-api").then(updateData, downloadError);
 }]);

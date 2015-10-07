@@ -2,10 +2,12 @@ var phonebookControllers = angular.module("PhonebookControllers");
 
 phonebookControllers.controller("PhonebookAddController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
     $scope.add = function (phonebookEntry) {
-        $http.post("/phonebook-api", phonebookEntry, getJsonHeaders()).success(function (data) {
+        var changeLocation = function (response) {
             $location.path("/");
-        }).error(function (data) {
+        };
+        var printError = function (response) {
             console.log("Can not add phone entry");
-        });
+        };
+        $http.post("/phonebook-api", phonebookEntry, getJsonHeaders()).then(changeLocation, printError);
     };
 }]);
