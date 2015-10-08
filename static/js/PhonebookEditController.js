@@ -1,21 +1,34 @@
 (function () {
     "use strict";
 
+    /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookEditController($scope, $http, $routeParams, $location, $log) {
+    function PhonebookEditController($http, $routeParams, $location, $log) {
+        var that = this;
+
         function UpdateData(response) {
-            $scope.phonebookEntry = response.data;
+            var entry = response.data;
+            that.id = entry._id;
+            that.name = entry.name;
+            that.lastName = entry.lastName;
+            that.number = entry.number;
         }
 
         function DownloadError(response) {
             $log.warn("Can not download phone entry");
         }
 
-        function Save(phonebookEntry) {
+        function Save() {
             var headers = {
-                "Content-Type": "application/json"
-            };
+                    "Content-Type": "application/json"
+                },
+                entry = {
+                    _id: that.id,
+                    name: that.name,
+                    lastName: that.lastName,
+                    number: that.number
+                };
 
             function ChangeLocation(response) {
                 $location.path("/");
@@ -25,21 +38,20 @@
                 $log.warn("Can not update phone entry");
             }
             $http
-                .put("/phonebook-api", phonebookEntry, {
+                .put("/phonebook-api", entry, {
                     headers: headers
                 })
                 .then(ChangeLocation, UpdateError);
         }
 
-        var id = $routeParams.id;
-        $scope.save = Save;
-        $http.get("/phonebook-api/" + id).then(UpdateData, DownloadError);
+        that.save = Save;
+        $http.get("/phonebook-api/" + $routeParams.id).then(UpdateData, DownloadError);
     }
 
     angular
         .module("PhonebookControllers")
         .controller("PhonebookEditController", PhonebookEditController);
 
-    PhonebookEditController.$inject = ["$scope", "$http", "$routeParams", "$location", "$log"];
+    PhonebookEditController.$inject = ["$http", "$routeParams", "$location", "$log"];
 
 }());

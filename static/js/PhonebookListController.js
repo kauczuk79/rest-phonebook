@@ -4,9 +4,11 @@
     /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookListController($scope, $http, $location, $log) {
+    function PhonebookListController($http, $location, $log) {
+        var that = this;
+
         function UpdateData(response) {
-            $scope.phonebook = response.data;
+            that.list = response.data;
         }
 
         function DownloadError(result) {
@@ -18,9 +20,9 @@
                 function FilterById(object) {
                     return object._id === id;
                 }
-                var toDelete = $scope.phonebook.filter(FilterById),
-                    index = $scope.phonebook.indexOf(toDelete);
-                $scope.phonebook.splice(index, 1);
+                var toDelete = that.list.filter(FilterById),
+                    index = that.list.indexOf(toDelete);
+                that.list.splice(index, 1);
             }
 
             function DeleteError(response) {
@@ -40,13 +42,13 @@
         function ShowEntry(id) {
             $location.path("/" + id);
         }
-        $scope.deleteEntry = DeleteEntry;
-        $scope.editEntry = EditEntry;
-        $scope.showEntry = ShowEntry;
+        that.deleteEntry = DeleteEntry;
+        that.editEntry = EditEntry;
+        that.showEntry = ShowEntry;
         $http.get("/phonebook-api").then(UpdateData, DownloadError);
     }
 
-    PhonebookListController.$inject = ["$scope", "$http", "$location", "$log"];
+    PhonebookListController.$inject = ["$http", "$location", "$log"];
 
     angular
         .module("PhonebookControllers")

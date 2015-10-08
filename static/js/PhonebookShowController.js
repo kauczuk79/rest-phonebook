@@ -3,24 +3,30 @@
 
     /*global angular*/
 
-    function PhonebookShowController($scope, $http, $routeParams, $location, $log) {
+    function PhonebookShowController($http, $routeParams, $location, $log) {
+        var that = this;
+
         function UpdateData(response) {
-            $scope.phonebookEntry = response.data;
+            var entry = response.data;
+            that.name = entry.name;
+            that.lastName = entry.lastName;
+            that.number = entry.number;
         }
 
         function DownloadError(response) {
             $log.warn("Can not download phone entry");
         }
 
-        function Edit(id) {
-            $location.path("/" + id + "/edit");
+        function Edit() {
+            $location.path("/" + that.id + "/edit");
         }
-        var id = $routeParams.id;
-        $scope.edit = Edit;
-        $http.get("/phonebook-api/" + id).then(UpdateData, DownloadError);
+
+        that.edit = Edit;
+        that.id = $routeParams.id;
+        $http.get("/phonebook-api/" + that.id).then(UpdateData, DownloadError);
     }
 
-    PhonebookShowController.$inject = ["$scope", "$http", "$routeParams", "$location", "$log"];
+    PhonebookShowController.$inject = ["$http", "$routeParams", "$location", "$log"];
 
     angular
         .module("PhonebookControllers")
