@@ -1,16 +1,16 @@
 (function () {
     "use strict";
 
-    /*jslint devel: true, nomen: true*/
+    /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookListController($scope, $http, $location) {
+    function PhonebookListController($scope, $http, $location, $log) {
         function UpdateData(response) {
             $scope.phonebook = response.data;
         }
 
         function DownloadError(result) {
-            console.log("Can not get phonebook data");
+            $log.warn("Can not get phonebook data");
         }
 
         function DeleteEntry(id) {
@@ -24,7 +24,7 @@
             }
 
             function DeleteError(response) {
-                console.log("Can not delete phone entry");
+                $log.warn("Can not delete phone entry");
             }
 
             /* to avoid sjlint error "Expected an identifier and instead saw 'delete' (a reserved word)"
@@ -46,7 +46,7 @@
         $http.get("/phonebook-api").then(UpdateData, DownloadError);
     }
 
-    PhonebookListController.$inject = ["$scope", "$http", "$location"];
+    PhonebookListController.$inject = ["$scope", "$http", "$location", "$log"];
 
     angular
         .module("PhonebookControllers")

@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    /*jslint devel: true, nomen: true*/
+    /*jslint nomen: true*/
     /*global require, module*/
 
     var express = require("express"),

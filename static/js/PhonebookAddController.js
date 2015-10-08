@@ -1,11 +1,9 @@
 (function () {
     "use strict";
 
-    /*jslint devel: true*/
     /*global angular*/
 
-
-    function PhonebookAddController($scope, $http, $location) {
+    function PhonebookAddController($scope, $http, $location, $log) {
         function AddPhoneEntry(phonebookEntry) {
             var headers = {
                 "Content-Type": "application/json"
@@ -16,7 +14,7 @@
             }
 
             function PrintError(response) {
-                console.log("Can not add phone entry");
+                $log.warn("Can not add phone entry");
             }
 
             $http
@@ -29,7 +27,7 @@
         $scope.add = AddPhoneEntry;
     }
 
-    PhonebookAddController.$inject = ["$scope", "$http", "$location"];
+    PhonebookAddController.$inject = ["$scope", "$http", "$location", "$log"];
 
     angular
         .module("PhonebookControllers")

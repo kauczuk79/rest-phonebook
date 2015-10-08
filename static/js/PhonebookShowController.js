@@ -1,16 +1,15 @@
 (function () {
     "use strict";
 
-    /*jslint devel: true*/
     /*global angular*/
 
-    function PhonebookShowController($scope, $http, $routeParams, $location) {
+    function PhonebookShowController($scope, $http, $routeParams, $location, $log) {
         function UpdateData(response) {
             $scope.phonebookEntry = response.data;
         }
 
         function DownloadError(response) {
-            console.log("Can not download phone entry");
+            $log.warn("Can not download phone entry");
         }
 
         function Edit(id) {
@@ -21,7 +20,7 @@
         $http.get("/phonebook-api/" + id).then(UpdateData, DownloadError);
     }
 
-    PhonebookShowController.$inject = ["$scope", "$http", "$routeParams", "$location"];
+    PhonebookShowController.$inject = ["$scope", "$http", "$routeParams", "$location", "$log"];
 
     angular
         .module("PhonebookControllers")
