@@ -1,5 +1,6 @@
 (function () {
     "use strict";
 
-    var phonebookControllers = angular.module("PhonebookControllers", []);
+    angular
+        .module("PhonebookControllers", []);
 })();

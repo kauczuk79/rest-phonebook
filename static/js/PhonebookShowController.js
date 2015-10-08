@@ -1,9 +1,11 @@
 (function () {
     "use strict";
 
-    var phonebookControllers = angular.module("PhonebookControllers");
+    angular
+        .module("PhonebookControllers")
+        .controller("PhonebookShowController", ["$scope", "$http", "$routeParams", "$location", PhonebookShowController]);
 
-    phonebookControllers.controller("PhonebookShowController", ["$scope", "$http", "$routeParams", "$location", function ($scope, $http, $routeParams, $location) {
+    function PhonebookShowController($scope, $http, $routeParams, $location) {
         var id = $routeParams.id;
         var updateData = function (response) {
             $scope.phonebookEntry = response.data;
@@ -15,5 +17,5 @@
             $location.path("/" + id + "/edit");
         }
         $http.get("/phonebook-api/" + id).then(updateData, downloadError);
-    }]);
+    }
 })();

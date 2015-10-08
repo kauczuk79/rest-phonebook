@@ -1,9 +1,11 @@
 (function () {
     "use strict";
 
-    var phonebookControllers = angular.module("PhonebookControllers");
+    angular
+        .module("PhonebookControllers")
+        .controller("PhonebookAddController", ["$scope", "$http", "$location", PhonebookAddController]);
 
-    phonebookControllers.controller("PhonebookAddController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+    function PhonebookAddController($scope, $http, $location) {
         $scope.add = function (phonebookEntry) {
             var changeLocation = function (response) {
                 $location.path("/");
@@ -13,5 +15,5 @@
             };
             $http.post("/phonebook-api", phonebookEntry, getJsonHeaders()).then(changeLocation, printError);
         };
-    }]);
+    }
 })();

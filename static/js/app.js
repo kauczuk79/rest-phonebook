@@ -1,9 +1,11 @@
 (function () {
     "use strict";
 
-    var phonebookApp = angular.module("PhonebookApp", ["ngRoute", "PhonebookControllers"]);
+    angular
+        .module("PhonebookApp", ["ngRoute", "PhonebookControllers"])
+        .config(["$routeProvider", DefineRouter]);
 
-    phonebookApp.config(["$routeProvider", function ($routeProvider) {
+    function DefineRouter($routeProvider) {
         $routeProvider.when("/", {
             templateUrl: "views/phonebook-list.html",
             controller: "PhonebookListController"
@@ -19,5 +21,5 @@
         }).otherwise({
             redirectTo: "/"
         });
-    }]);
+    }
 })();
