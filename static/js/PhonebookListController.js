@@ -6,6 +6,7 @@
 
     function PhonebookListController($http, $location, $log) {
         var that = this;
+        that.list = [];
 
         function UpdateData(response) {
             that.list = response.data;

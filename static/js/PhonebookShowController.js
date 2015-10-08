@@ -5,6 +5,7 @@
 
     function PhonebookShowController($http, $routeParams, $location, $log) {
         var that = this;
+        that.id = $routeParams.id;
 
         function UpdateData(response) {
             var entry = response.data;
@@ -22,7 +23,6 @@
         }
 
         that.edit = Edit;
-        that.id = $routeParams.id;
         $http.get("/phonebook-api/" + that.id).then(UpdateData, DownloadError);
     }
 

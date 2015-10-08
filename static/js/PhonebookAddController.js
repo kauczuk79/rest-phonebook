@@ -5,6 +5,9 @@
 
     function PhonebookAddController($http, $location, $log) {
         var that = this;
+        that.name = "";
+        that.lastName = "";
+        that.number = "";
 
         function AddPhoneEntry() {
             var headers = {
@@ -31,9 +34,6 @@
                 .then(ChangeLocation, PrintError);
         }
         that.add = AddPhoneEntry;
-        that.name = "";
-        that.lastName = "";
-        that.number = "";
     }
 
     PhonebookAddController.$inject = ["$http", "$location", "$log"];
