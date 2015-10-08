@@ -3,19 +3,24 @@
 
     angular
         .module("PhonebookControllers")
-        .controller("PhonebookShowController", ["$scope", "$http", "$routeParams", "$location", PhonebookShowController]);
+        .controller("PhonebookShowController", PhonebookShowController);
+
+    PhonebookShowController.$inject = ["$scope", "$http", "$routeParams", "$location"];
 
     function PhonebookShowController($scope, $http, $routeParams, $location) {
-        var id = $routeParams.id;
-        var updateData = function (response) {
+        function UpdateData(response) {
             $scope.phonebookEntry = response.data;
-        };
-        var downloadError = function (response) {
+        }
+
+        function DownloadError(response) {
             console.log("Can not download phone entry");
-        };
-        $scope.edit = function () {
+        }
+
+        function Edit() {
             $location.path("/" + id + "/edit");
         }
-        $http.get("/phonebook-api/" + id).then(updateData, downloadError);
+        var id = $routeParams.id;
+        $scope.edit = Edit;
+        $http.get("/phonebook-api/" + id).then(UpdateData, DownloadError);
     }
 })();
