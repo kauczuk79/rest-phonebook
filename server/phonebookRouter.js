@@ -14,7 +14,17 @@ mongodb.MongoClient.connect("mongodb://localhost:27017/phonebookDb", function (e
 });
 
 router.get("/", function (request, response) {
-    phonebookCollection.find({}, defaultFieldFilter).toArray(function (error, collection) {
+    var name = request.query.name,
+        lastName = request.query.lastName,
+        number = request.query.number,
+        query = {};
+    if (name !== undefined)
+        query.name = name;
+    if (lastName !== undefined)
+        query.lastName = lastName;
+    if (number !== undefined)
+        query.number = number;
+    phonebookCollection.find(query, defaultFieldFilter).toArray(function (error, collection) {
         if (error) throw error;
         response.status(status.OK).header("Content-Type", "application/json").send(collection);
     });
