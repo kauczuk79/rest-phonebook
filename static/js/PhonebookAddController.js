@@ -1,14 +1,16 @@
 (function () {
     "use strict";
 
-    angular
-        .module("PhonebookControllers")
-        .controller("PhonebookAddController", PhonebookAddController);
+    /*jslint devel: true*/
+    /*global angular*/
 
-    PhonebookAddController.$inject = ["$scope", "$http", "$location"];
 
     function PhonebookAddController($scope, $http, $location) {
         function AddPhoneEntry(phonebookEntry) {
+            var headers = {
+                "Content-Type": "application/json"
+            };
+
             function ChangeLocation() {
                 $location.path("/");
             }
@@ -18,10 +20,18 @@
             }
 
             $http
-                .post("/phonebook-api", phonebookEntry, getJsonHeaders())
+                .post("/phonebook-api", phonebookEntry, {
+                    headers: headers
+                })
                 .then(ChangeLocation, PrintError);
         }
 
         $scope.add = AddPhoneEntry;
     }
-})();
+
+    PhonebookAddController.$inject = ["$scope", "$http", "$location"];
+
+    angular
+        .module("PhonebookControllers")
+        .controller("PhonebookAddController", PhonebookAddController);
+}());

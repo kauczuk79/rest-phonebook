@@ -1,11 +1,8 @@
 (function () {
     "use strict";
 
-    angular
-        .module("PhonebookControllers")
-        .controller("PhonebookListController", PhonebookListController);
-
-    PhonebookListController.$inject = ["$scope", "$http", "$location"];
+    /*jslint devel: true, nomen: true*/
+    /*global angular*/
 
     function PhonebookListController($scope, $http, $location) {
         function UpdateData(response) {
@@ -19,7 +16,7 @@
         function DeleteEntry(id) {
             function RemoveFromView(response) {
                 function FilterById(object) {
-                    return object._id == id;
+                    return object._id === id;
                 }
                 var toDelete = $scope.phonebook.filter(FilterById),
                     index = $scope.phonebook.indexOf(toDelete);
@@ -30,7 +27,10 @@
                 console.log("Can not delete phone entry");
             }
 
-            $http.delete("/phonebook-api/" + id).then(RemoveFromView, DeleteError);
+            /* to avoid sjlint error "Expected an identifier and instead saw 'delete' (a reserved word)"
+             * use $http['delete']() instead $http.delete */
+            $http['delete']("/phonebook-api/" + id)
+                .then(RemoveFromView, DeleteError);
         }
 
         function EditEntry(id) {
@@ -45,4 +45,10 @@
         $scope.showEntry = ShowEntry;
         $http.get("/phonebook-api").then(UpdateData, DownloadError);
     }
-})();
+
+    PhonebookListController.$inject = ["$scope", "$http", "$location"];
+
+    angular
+        .module("PhonebookControllers")
+        .controller("PhonebookListController", PhonebookListController);
+}());

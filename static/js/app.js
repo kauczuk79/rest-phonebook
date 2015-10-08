@@ -1,9 +1,7 @@
 (function () {
     "use strict";
 
-    angular
-        .module("PhonebookApp", ["ngRoute", "PhonebookControllers"])
-        .config(["$routeProvider", DefineRouter]);
+    /*global angular*/
 
     function DefineRouter($routeProvider) {
         $routeProvider.when("/", {
@@ -22,4 +20,8 @@
             redirectTo: "/"
         });
     }
-})();
+
+    angular
+        .module("PhonebookApp", ["ngRoute", "PhonebookControllers"])
+        .config(["$routeProvider", DefineRouter]);
+}());
