@@ -22,7 +22,7 @@
                     return object._id === id;
                 }
                 var toDelete = that.list.filter(FilterById),
-                    index = that.list.indexOf(toDelete);
+                    index = that.list.indexOf(toDelete[0]);
                 that.list.splice(index, 1);
             }
 
