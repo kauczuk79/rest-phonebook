@@ -4,7 +4,7 @@
     /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookEditController($http, $routeParams, $location, $log) {
+    function PhonebookEditController($http, $routeParams, $location, Logger) {
         var that = this;
 
         function UpdateData(response) {
@@ -16,7 +16,7 @@
         }
 
         function DownloadError(response) {
-            $log.warn("Can not download phone entry");
+            Logger.error("Can not download phone entry");
         }
 
         function Save() {
@@ -35,7 +35,7 @@
             }
 
             function UpdateError(response) {
-                $log.warn("Can not update phone entry");
+                Logger.error("Can not update phone entry");
             }
             $http
                 .put("/phonebook-api", entry, {
@@ -48,7 +48,7 @@
         $http.get("/phonebook-api/" + $routeParams.id).then(UpdateData, DownloadError);
     }
 
-    PhonebookEditController.$inject = ["$http", "$routeParams", "$location", "$log"];
+    PhonebookEditController.$inject = ["$http", "$routeParams", "$location", "Logger"];
 
     angular
         .module("app.controllers")

@@ -3,7 +3,7 @@
 
     /*global angular*/
 
-    function PhonebookAddController($http, $location, $log) {
+    function PhonebookAddController($http, $location, Logger) {
         var that = this;
         that.name = "";
         that.lastName = "";
@@ -24,7 +24,7 @@
             }
 
             function PrintError(response) {
-                $log.warn("Can not add phone entry");
+                Logger.error("Can not add phone entry");
             }
 
             $http
@@ -36,7 +36,7 @@
         that.add = AddPhoneEntry;
     }
 
-    PhonebookAddController.$inject = ["$http", "$location", "$log"];
+    PhonebookAddController.$inject = ["$http", "$location", "Logger"];
 
     angular
         .module("app.controllers")

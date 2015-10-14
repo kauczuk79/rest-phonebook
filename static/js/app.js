@@ -22,6 +22,6 @@
     }
 
     angular
-        .module("app", ["ngRoute", "app.controllers"])
+        .module("app", ["ngRoute", "app.controllers", "app.logger"])
         .config(["$routeProvider", DefineRouter]);
 }());

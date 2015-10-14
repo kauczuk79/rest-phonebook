@@ -4,7 +4,7 @@
     /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookListController($http, $location, $log) {
+    function PhonebookListController($http, $location, Logger) {
         var that = this;
         that.list = [];
 
@@ -13,7 +13,7 @@
         }
 
         function DownloadError(result) {
-            $log.warn("Can not get phonebook data");
+            Logger.error("Can not get phonebook data");
         }
 
         function DeleteEntry(id) {
@@ -27,7 +27,7 @@
             }
 
             function DeleteError(response) {
-                $log.warn("Can not delete phone entry");
+                Logger.error("Can not delete phone entry");
             }
 
             /* to avoid sjlint error "Expected an identifier and instead saw 'delete' (a reserved word)"
@@ -47,9 +47,10 @@
         that.editEntry = EditEntry;
         that.showEntry = ShowEntry;
         $http.get("/phonebook-api").then(UpdateData, DownloadError);
+        //Logger.setLogLevel(Logger.ERROR);
     }
 
-    PhonebookListController.$inject = ["$http", "$location", "$log"];
+    PhonebookListController.$inject = ["$http", "$location", "Logger"];
 
     angular
         .module("app.controllers")
