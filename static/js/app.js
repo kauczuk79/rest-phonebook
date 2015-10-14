@@ -22,6 +22,6 @@
     }
 
     angular
-        .module("PhonebookApp", ["ngRoute", "PhonebookControllers"])
+        .module("app", ["ngRoute", "app.controllers"])
         .config(["$routeProvider", DefineRouter]);
 }());

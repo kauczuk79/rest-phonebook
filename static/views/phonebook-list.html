@@ -18,9 +18,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="phonebookEntry in controller.list | filter:searchText">
-                    <td>{{phonebookEntry.name}}</td>
-                    <td>{{phonebookEntry.lastName}}</td>
-                    <td>{{phonebookEntry.number}}</td>
+                    <td ng-bind="phonebookEntry.name"></td>
+                    <td ng-bind="phonebookEntry.lastName"></td>
+                    <td ng-bind="phonebookEntry.number"></td>
                     <td>
                         <div class="btn-group btn-group-xs" role="group">
                             <button class="btn btn-default" aria-label="Edit" type="button" ng-click="controller.showEntry(phonebookEntry._id)" data-toggle="tooltip" data-placement="bottom" title="View">

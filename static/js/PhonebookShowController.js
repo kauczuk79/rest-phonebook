@@ -29,6 +29,6 @@
     PhonebookShowController.$inject = ["$http", "$routeParams", "$location", "$log"];
 
     angular
-        .module("PhonebookControllers")
+        .module("app.controllers")
         .controller("PhonebookShowController", PhonebookShowController);
 }());

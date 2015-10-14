@@ -4,5 +4,5 @@
     /*global angular*/
 
     angular
-        .module("PhonebookControllers", []);
+        .module("app.controllers", []);
 }());

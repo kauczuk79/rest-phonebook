@@ -48,10 +48,10 @@
         $http.get("/phonebook-api/" + $routeParams.id).then(UpdateData, DownloadError);
     }
 
-    angular
-        .module("PhonebookControllers")
-        .controller("PhonebookEditController", PhonebookEditController);
-
     PhonebookEditController.$inject = ["$http", "$routeParams", "$location", "$log"];
+
+    angular
+        .module("app.controllers")
+        .controller("PhonebookEditController", PhonebookEditController);
 
 }());
