@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*global angular*/
 
@@ -15,20 +15,20 @@
         }
 
         function DownloadError(response) {
-            Logger.error("Can not download phone entry");
+            Logger.error('Can not download phone entry');
         }
 
         function Edit() {
-            $location.path("/" + that.id + "/edit");
+            $location.path('/' + that.id + '/edit');
         }
 
         that.edit = Edit;
-        $http.get("/phonebook-api/" + that.id).then(UpdateData, DownloadError);
+        $http.get('/phonebook-api/' + that.id).then(UpdateData, DownloadError);
     }
 
-    PhonebookShowController.$inject = ["$http", "$routeParams", "$location", "Logger"];
+    PhonebookShowController.$inject = ['$http', '$routeParams', '$location', 'Logger'];
 
     angular
-        .module("app.controllers")
-        .controller("PhonebookShowController", PhonebookShowController);
+        .module('app.controllers')
+        .controller('PhonebookShowController', PhonebookShowController);
 }());

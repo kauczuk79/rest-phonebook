@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*jslint nomen: true*/
     /*global angular*/
@@ -16,12 +16,12 @@
         }
 
         function DownloadError(response) {
-            Logger.error("Can not download phone entry");
+            Logger.error('Can not download phone entry');
         }
 
         function Save() {
             var headers = {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 entry = {
                     _id: that.id,
@@ -31,27 +31,27 @@
                 };
 
             function ChangeLocation(response) {
-                $location.path("/");
+                $location.path('/');
             }
 
             function UpdateError(response) {
-                Logger.error("Can not update phone entry");
+                Logger.error('Can not update phone entry');
             }
             $http
-                .put("/phonebook-api", entry, {
+                .put('/phonebook-api', entry, {
                     headers: headers
                 })
                 .then(ChangeLocation, UpdateError);
         }
 
         that.save = Save;
-        $http.get("/phonebook-api/" + $routeParams.id).then(UpdateData, DownloadError);
+        $http.get('/phonebook-api/' + $routeParams.id).then(UpdateData, DownloadError);
     }
 
-    PhonebookEditController.$inject = ["$http", "$routeParams", "$location", "Logger"];
+    PhonebookEditController.$inject = ['$http', '$routeParams', '$location', 'Logger'];
 
     angular
-        .module("app.controllers")
-        .controller("PhonebookEditController", PhonebookEditController);
+        .module('app.controllers')
+        .controller('PhonebookEditController', PhonebookEditController);
 
 }());

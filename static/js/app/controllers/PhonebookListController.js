@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*jslint nomen: true*/
     /*global angular*/
@@ -13,7 +13,7 @@
         }
 
         function DownloadError(result) {
-            Logger.error("Can not get phonebook data");
+            Logger.error('Can not get phonebook data');
         }
 
         function DeleteEntry(id) {
@@ -27,32 +27,32 @@
             }
 
             function DeleteError(response) {
-                Logger.error("Can not delete phone entry");
+                Logger.error('Can not delete phone entry');
             }
 
-            /* to avoid sjlint error "Expected an identifier and instead saw 'delete' (a reserved word)"
+            /* to avoid sjlint error 'Expected an identifier and instead saw 'delete' (a reserved word)'
              * use $http['delete']() instead $http.delete */
-            $http['delete']("/phonebook-api/" + id)
+            $http['delete']('/phonebook-api/' + id)
                 .then(RemoveFromView, DeleteError);
         }
 
         function EditEntry(id) {
-            $location.path("/" + id + "/edit");
+            $location.path('/' + id + '/edit');
         }
 
         function ShowEntry(id) {
-            $location.path("/" + id);
+            $location.path('/' + id);
         }
         that.deleteEntry = DeleteEntry;
         that.editEntry = EditEntry;
         that.showEntry = ShowEntry;
-        $http.get("/phonebook-api").then(UpdateData, DownloadError);
+        $http.get('/phonebook-api').then(UpdateData, DownloadError);
         //Logger.setLogLevel(Logger.ERROR);
     }
 
-    PhonebookListController.$inject = ["$http", "$location", "Logger"];
+    PhonebookListController.$inject = ['$http', '$location', 'Logger'];
 
     angular
-        .module("app.controllers")
-        .controller("PhonebookListController", PhonebookListController);
+        .module('app.controllers')
+        .controller('PhonebookListController', PhonebookListController);
 }());

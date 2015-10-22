@@ -1,27 +1,27 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*global angular*/
 
     function DefineRouter($routeProvider) {
-        $routeProvider.when("/", {
-            templateUrl: "views/phonebook-list.html",
-            controller: "PhonebookListController"
-        }).when("/add", {
-            templateUrl: "views/phonebook-add.html",
-            controller: "PhonebookAddController"
-        }).when("/:id", {
-            templateUrl: "views/phonebook-show.html",
-            controller: "PhonebookShowController"
-        }).when("/:id/edit", {
-            templateUrl: "views/phonebook-edit.html",
-            controller: "PhonebookEditController"
+        $routeProvider.when('/', {
+            templateUrl: 'views/phonebook-list.html',
+            controller: 'PhonebookListController'
+        }).when('/add', {
+            templateUrl: 'views/phonebook-add.html',
+            controller: 'PhonebookAddController'
+        }).when('/:id', {
+            templateUrl: 'views/phonebook-show.html',
+            controller: 'PhonebookShowController'
+        }).when('/:id/edit', {
+            templateUrl: 'views/phonebook-edit.html',
+            controller: 'PhonebookEditController'
         }).otherwise({
-            redirectTo: "/"
+            redirectTo: '/'
         });
     }
 
     angular
-        .module("app", ["ngRoute", "app.controllers", "app.logger"])
-        .config(["$routeProvider", DefineRouter]);
+        .module('app', ['ngRoute', 'app.controllers', 'app.logger'])
+        .config(['$routeProvider', DefineRouter]);
 }());

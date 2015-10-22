@@ -1,8 +1,8 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*global angular*/
 
     angular
-        .module("app.logger", []);
+        .module('app.logger', []);
 }());

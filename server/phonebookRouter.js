@@ -1,17 +1,17 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*jslint nomen: true*/
     /*global require, module*/
 
-    var DB_ADDRESS = "mongodb://localhost:27017/phonebookDb",
-        CT = "Content-Type",
-        CT_JSON = "application/json",
-        CT_PLAIN = "text/plain",
-        express = require("express"),
-        bodyParser = require("body-parser"),
-        mongodb = require("mongodb"),
-        status = require("http-status"),
+    var DB_ADDRESS = 'mongodb://localhost:27017/phonebookDb',
+        CT = 'Content-Type',
+        CT_JSON = 'application/json',
+        CT_PLAIN = 'text/plain',
+        express = require('express'),
+        bodyParser = require('body-parser'),
+        mongodb = require('mongodb'),
+        status = require('http-status'),
         router = express.Router(),
         phonebookCollection = null,
         defaultFieldFilter = {};
@@ -20,7 +20,7 @@
         if (error) {
             throw error;
         }
-        phonebookCollection = database.collection("phonebook");
+        phonebookCollection = database.collection('phonebook');
     }
 
     function sendResult(error, result, response, toObject) {
@@ -40,7 +40,7 @@
 
     function queryById(id) {
         var query = {
-            "_id": mongodb.ObjectID(id)
+            '_id': mongodb.ObjectID(id)
         };
         return query;
     }
@@ -102,11 +102,11 @@
     router.use(bodyParser.json());
     mongodb.MongoClient.connect(DB_ADDRESS, InitDatabase);
 
-    router.get("/", GetPhonebookEntries);
-    router.post("/", CreatePhonebookEntry);
-    router.get("/:id", ReadPhonebookEntry);
-    router.put("/", UpdatePhonebookEntry);
-    router['delete']("/:id", DeletePhonebookEntry);
+    router.get('/', GetPhonebookEntries);
+    router.post('/', CreatePhonebookEntry);
+    router.get('/:id', ReadPhonebookEntry);
+    router.put('/', UpdatePhonebookEntry);
+    router['delete']('/:id', DeletePhonebookEntry);
 
     module.exports = router;
 }());

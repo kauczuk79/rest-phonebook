@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
 
     /*global angular, alert*/
 
@@ -53,9 +53,9 @@
         };
     }
 
-    LoggerFactory.$inject = ["$log"];
+    LoggerFactory.$inject = ['$log'];
 
     angular
-        .module("app.logger")
-        .factory("Logger", LoggerFactory);
+        .module('app.logger')
+        .factory('Logger', LoggerFactory);
 }());
