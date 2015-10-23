@@ -6,14 +6,17 @@
 
     function PhonebookListController($http, $location, Logger) {
         var that = this;
+        that.error = false;
         that.list = [];
 
         function UpdateData(response) {
             that.list = response.data;
+            that.error = false;
         }
 
         function DownloadError(result) {
             Logger.error('Can not get phonebook data');
+            that.error = true;
         }
 
         function DeleteEntry(id) {

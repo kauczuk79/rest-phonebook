@@ -27,15 +27,10 @@ describe('Phonebook API\'s', function () {
 
     describe('PhonebookListController', function () {
         var expectedResponse = mockData,
-            scope,
             controller;
         beforeEach(inject(function ($injector) {
-            var $rootScope = $injector.get('$rootScope'),
-                $controller = $injector.get('$controller');
-            scope = $rootScope.$new();
-            controller = $controller('PhonebookListController', {
-                $scope: scope
-            });
+            var $controller = $injector.get('$controller');
+            controller = $controller('PhonebookListController');
         }));
 
         afterEach(function () {
@@ -51,18 +46,26 @@ describe('Phonebook API\'s', function () {
         it('should send GET request and handle response', function () {
             var requestEventHandler = httpBackend.expectGET('/phonebook-api').respond(expectedResponse);
             httpBackend.flush();
+            expect(controller.error).toBeFalsy();
             expect(controller.list).toEqual(expectedResponse);
             httpBackend.verifyNoOutstandingExpectation();
         });
 
-        it('should hendle Edit button click and redirect to edit path', function () {
+        it('should send GET request and handle response error', function () {
+            var requestEventHandler = httpBackend.expectGET('/phonebook-api').respond(401, '');
+            httpBackend.flush();
+            expect(controller.error).toBeTruthy();
+            httpBackend.verifyNoOutstandingExpectation();
+        });
+
+        it('should handle Edit button click and redirect to edit path', function () {
             var id = expectedResponse[0].id;
             spyOn(location, 'path');
             controller.editEntry(id);
             expect(location.path).toHaveBeenCalledWith('/' + id + '/edit');
         });
 
-        it('should hendle Show button click and redirect to edit path', function () {
+        it('should handle Show button click and redirect to edit path', function () {
             var id = expectedResponse[0].id;
             spyOn(location, 'path');
             controller.showEntry(id);
@@ -84,20 +87,31 @@ describe('Phonebook API\'s', function () {
             expect(lengthAfter).toEqual(1);
             httpBackend.verifyNoOutstandingExpectation();
         });
+
+        it('should not delete item by Delete button click when request error appears', function () {
+            var id = expectedResponse[0].id,
+                requestEventHandler = httpBackend.expectGET('/phonebook-api').respond(expectedResponse),
+                lengthBefore,
+                lengthAfter;
+            httpBackend.flush();
+            lengthBefore = controller.list.length;
+            requestEventHandler = httpBackend.expectDELETE('/phonebook-api/' + id).respond(401, '');
+            controller.deleteEntry(id);
+            httpBackend.flush();
+            lengthAfter = controller.list.length;
+            expect(lengthBefore).toEqual(lengthAfter);
+            httpBackend.verifyNoOutstandingExpectation();
+        });
     });
 
     describe('PhonebookShowController', function () {
         var expectedResponse = mockData[1],
-            scope,
             controller;
 
         beforeEach(inject(function ($injector) {
-            var $rootScope = $injector.get('$rootScope'),
-                $controller = $injector.get('$controller'),
+            var $controller = $injector.get('$controller'),
                 $routeParams = $injector.get('$routeParams');
-            scope = $rootScope.$new();
             controller = $controller('PhonebookShowController', {
-                $scope: scope,
                 $routeParams: {
                     id: expectedResponse.id
                 }
@@ -121,21 +135,19 @@ describe('Phonebook API\'s', function () {
             expect(controller.lastName).toEqual(expectedResponse.lastName);
             expect(controller.number).toEqual(expectedResponse.number);
             httpBackend.verifyNoOutstandingExpectation();
-
         });
 
         it('should send GET request and handle response error', function () {
-            var requestEventHandler = httpBackend.expectGET('/phonebook-api/' + expectedResponse.id).respond(expectedResponse);
-            requestEventHandler.respond(401, '');
+            var requestEventHandler = httpBackend.expectGET('/phonebook-api/' + expectedResponse.id).respond(401, '');
             httpBackend.flush();
             expect(controller.error).toBeTruthy();
-            expect(controller.name).toEqual(undefined);
-            expect(controller.lastName).toEqual(undefined);
-            expect(controller.number).toEqual(undefined);
+            expect(controller.name).toBeUndefined();
+            expect(controller.lastName).toBeUndefined();
+            expect(controller.number).toBeUndefined();
             httpBackend.verifyNoOutstandingExpectation();
         });
 
-        it('should hendle Edit button click and redirect to edit path', function () {
+        it('should handle Edit button click and redirect to edit path', function () {
             spyOn(location, 'path');
             controller.edit();
             expect(location.path).toHaveBeenCalledWith('/' + expectedResponse.id + '/edit');
