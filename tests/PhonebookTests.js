@@ -1,5 +1,5 @@
 /*global describe, beforeEach, module, inject, it, expect, afterEach, spyOn */
-describe('Phonebook REST', function () {
+describe('Phonebook API\'s', function () {
     'use strict';
 
     var mockData = [{
@@ -25,7 +25,7 @@ describe('Phonebook REST', function () {
         location = $injector.get('$location');
     }));
 
-    describe('Controller: PhonebookListController', function () {
+    describe('PhonebookListController', function () {
         var expectedResponse = mockData,
             scope,
             controller;
@@ -86,7 +86,7 @@ describe('Phonebook REST', function () {
         });
     });
 
-    describe('Controller: PhonebookShowController', function () {
+    describe('PhonebookShowController', function () {
         var expectedResponse = mockData[1],
             scope,
             controller;
