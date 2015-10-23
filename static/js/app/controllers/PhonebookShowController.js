@@ -6,6 +6,7 @@
     function PhonebookShowController($http, $routeParams, $location, Logger) {
         var that = this;
         that.id = $routeParams.id;
+        that.error = false;
 
         function UpdateData(response) {
             var entry = response.data;
@@ -15,6 +16,7 @@
         }
 
         function DownloadError(response) {
+            that.error = true;
             Logger.error("Can not download phone entry");
         }
 
