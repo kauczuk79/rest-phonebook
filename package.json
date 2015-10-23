@@ -1,37 +1,39 @@
 {
-  "name": "rest-phonebook",
-  "version": "1.0.0",
-  "description": "REST Phonebook",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "karma start tests\\karma.conf.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kauczuk79/rest-phonebook.git"
-  },
-  "author": "kauczuk79",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kauczuk79/rest-phonebook/issues"
-  },
-  "homepage": "https://github.com/kauczuk79/rest-phonebook#readme",
-  "dependencies": {
-    "angular": "^1.4.7",
-    "angular-route": "^1.4.7",
-    "body-parser": "^1.14.1",
-    "bootstrap": "^3.3.5",
-    "express": "^4.13.3",
-    "http-status": "^0.2.0",
-    "jquery": "^2.1.4",
-    "mongodb": "^2.0.45"
-  },
-  "devDependencies": {
-    "angular-mocks": "^1.4.7",
-    "jasmine-core": "^2.3.4",
-    "karma": "^0.13.11",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-jasmine": "^0.3.6"
-  }
+    "name": "rest-phonebook",
+    "version": "1.0.0",
+    "description": "REST Phonebook",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "karma start tests\\karma.conf.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kauczuk79/rest-phonebook.git"
+    },
+    "author": "kauczuk79",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kauczuk79/rest-phonebook/issues"
+    },
+    "homepage": "https://github.com/kauczuk79/rest-phonebook#readme",
+    "dependencies": {
+        "angular": "^1.4.7",
+        "angular-route": "^1.4.7",
+        "body-parser": "^1.14.1",
+        "bootstrap": "^3.3.5",
+        "express": "^4.13.3",
+        "http-status": "^0.2.0",
+        "jquery": "^2.1.4",
+        "mongodb": "^2.0.45"
+    },
+    "devDependencies": {
+        "angular-mocks": "^1.4.7",
+        "jasmine-core": "^2.3.4",
+        "karma": "^0.13.11",
+        "karma-chrome-launcher": "^0.2.1",
+        "karma-firefox-launcher": "^0.1.6",
+        "karma-ie-launcher": "^0.2.0",
+        "karma-jasmine": "^0.3.6"
+    }
 }
