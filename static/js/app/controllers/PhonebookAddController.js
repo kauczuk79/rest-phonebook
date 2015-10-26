@@ -3,21 +3,18 @@
 
     /*global angular*/
 
-    function PhonebookAddController($http, $location, Logger) {
+    function PhonebookAddController($location, Logger, PhonebookService) {
         var that = this;
         that.name = '';
         that.lastName = '';
         that.number = '';
 
         function AddPhoneEntry() {
-            var headers = {
-                    'Content-Type': 'application/json'
-                },
-                entry = {
-                    name: that.name,
-                    lastName: that.lastName,
-                    number: that.number
-                };
+            var entry = {
+                name: that.name,
+                lastName: that.lastName,
+                number: that.number
+            };
 
             function ChangeLocation() {
                 $location.path('/');
@@ -27,16 +24,12 @@
                 Logger.error('Can not add phone entry');
             }
 
-            $http
-                .post('/phonebook-api', entry, {
-                    headers: headers
-                })
-                .then(ChangeLocation, PrintError);
+            PhonebookService.createOne(entry).then(ChangeLocation, PrintError);
         }
         that.add = AddPhoneEntry;
     }
 
-    PhonebookAddController.$inject = ['$http', '$location', 'Logger'];
+    PhonebookAddController.$inject = ['$location', 'Logger', 'PhonebookService'];
 
     angular
         .module('app.controllers')

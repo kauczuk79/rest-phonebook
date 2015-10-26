@@ -17,6 +17,7 @@ describe('Phonebook API\'s', function () {
         location;
 
     beforeEach(module('app.controllers'));
+    beforeEach(module('app.services'));
     beforeEach(module('app.logger'));
     beforeEach(module('ngRoute'));
 

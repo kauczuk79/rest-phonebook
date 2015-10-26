@@ -4,7 +4,7 @@
     /*jslint nomen: true*/
     /*global angular*/
 
-    function PhonebookListController($http, $location, Logger) {
+    function PhonebookListController($location, Logger, PhonebookService) {
         var that = this;
         that.error = false;
         that.list = [];
@@ -33,10 +33,7 @@
                 Logger.error('Can not delete phone entry');
             }
 
-            /* to avoid sjlint error 'Expected an identifier and instead saw 'delete' (a reserved word)'
-             * use $http['delete']() instead $http.delete */
-            $http['delete']('/phonebook-api/' + id)
-                .then(RemoveFromView, DeleteError);
+            PhonebookService.deleteOne(id).then(RemoveFromView, DeleteError);
         }
 
         function EditEntry(id) {
@@ -49,11 +46,11 @@
         that.deleteEntry = DeleteEntry;
         that.editEntry = EditEntry;
         that.showEntry = ShowEntry;
-        $http.get('/phonebook-api').then(UpdateData, DownloadError);
-        //Logger.setLogLevel(Logger.ERROR);
+        PhonebookService.getAll().then(UpdateData, DownloadError);
+        Logger.setLogLevel(Logger.DEBUG);
     }
 
-    PhonebookListController.$inject = ['$http', '$location', 'Logger'];
+    PhonebookListController.$inject = ['$location', 'Logger', 'PhonebookService'];
 
     angular
         .module('app.controllers')

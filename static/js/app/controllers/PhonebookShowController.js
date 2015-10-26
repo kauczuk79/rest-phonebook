@@ -3,7 +3,7 @@
 
     /*global angular*/
 
-    function PhonebookShowController($http, $routeParams, $location, Logger) {
+    function PhonebookShowController($routeParams, $location, Logger, PhonebookService) {
         var that = this;
         that.id = $routeParams.id;
         that.error = false;
@@ -25,10 +25,10 @@
         }
 
         that.edit = Edit;
-        $http.get('/phonebook-api/' + that.id).then(UpdateData, DownloadError);
+        PhonebookService.getOne(that.id).then(UpdateData, DownloadError);
     }
 
-    PhonebookShowController.$inject = ['$http', '$routeParams', '$location', 'Logger'];
+    PhonebookShowController.$inject = ['$routeParams', '$location', 'Logger', 'PhonebookService'];
 
     angular
         .module('app.controllers')
