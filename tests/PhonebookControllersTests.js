@@ -4,7 +4,6 @@ describe('Phonebook API\'s', function () {
     'use strict';
 
     var mockData,
-        $httpBackend,
         $location,
         mockPhonebookService,
         $q;
@@ -16,13 +15,12 @@ describe('Phonebook API\'s', function () {
 
     beforeEach(inject(function ($injector) {
         // Get instance of dependencies from $provide
-        $httpBackend = $injector.get('$httpBackend');
         $location = $injector.get('$location');
         $q = $injector.get('$q');
         // Load mock data from file
         mockData = readJSON('tests/mockData.json');
         // Create spy object with given list of methods
-        mockPhonebookService = jasmine.createSpyObj('PhonebookService', ['getAll', 'deleteOne', 'getOne']);
+        mockPhonebookService = jasmine.createSpyObj('PhonebookService', ['getAll', 'deleteOne', 'getOne', 'updateOne', 'createOne']);
         // getAll function returns promise, which is always resolved
         mockPhonebookService.getAll.and.returnValue($q(function (resolve, reject) {
             resolve({
@@ -58,6 +56,26 @@ describe('Phonebook API\'s', function () {
                         status: 404
                     });
                 }
+            });
+        });
+        mockPhonebookService.updateOne.and.callFake(function (data) {
+            return $q(function (resolve, reject) {
+                if ((data._id !== undefined) && (data.name !== undefined) && (data.lastName !== undefined) && (data.number !== undefined)) {
+                    resolve({
+                        status: 200
+                    });
+                } else {
+                    reject({
+                        status: 404
+                    });
+                }
+            });
+        });
+        mockPhonebookService.createOne.and.callFake(function (data) {
+            return $q(function (resolve, reject) {
+                resolve({
+                    status: 200
+                });
             });
         });
     }));
@@ -146,8 +164,7 @@ describe('Phonebook API\'s', function () {
 
         beforeEach(inject(function ($injector) {
             // Get instance of dependencies from $provide
-            var $routeParams = $injector.get('$routeParams'),
-                $controller = $injector.get('$controller'),
+            var $controller = $injector.get('$controller'),
                 $rootScope = $injector.get('$rootScope');
             // Select one entry for tests
             phonebookEntry = mockData[0];
@@ -216,5 +233,103 @@ describe('Phonebook API\'s', function () {
             // location change expected
             expect($location.path).toHaveBeenCalledWith('/' + phonebookEntry._id + '/edit');
         });
+    });
+
+    /*
+     * Unit tests for PhonebookEditController
+     */
+    describe('PhonebookEditController', function () {
+
+        var phonebookEntry,
+            $scope,
+            createController;
+
+        beforeEach(inject(function ($injector) {
+            // Get instance of dependencies from $provide
+            var $controller = $injector.get('$controller'),
+                $rootScope = $injector.get('$rootScope');
+            // Select one entry for tests
+            phonebookEntry = mockData[0];
+            // Create scope
+            $scope = $rootScope.$new();
+            // Create constructor for controllers
+            createController = function (id) {
+                // Return controller with given ID and using mockPhonebookService as data source
+                return $controller('PhonebookEditController', {
+                    $routeParams: {
+                        id: id
+                    },
+                    PhonebookService: mockPhonebookService
+                });
+            };
+        }));
+
+        it('should be properly initialized', function () {
+            // Create controller
+            var controller = createController(phonebookEntry._id);
+            // Expect service's getOne method to have been called with parameter equals to entry ID
+            expect(mockPhonebookService.getOne).toHaveBeenCalledWith(phonebookEntry._id);
+            // Controller functions should be defined
+            expect(controller.save).toBeDefined();
+        });
+
+        it('should get proper data from PhonebookService', function () {
+            // Create controller
+            var controller = createController(phonebookEntry._id);
+            // Resolve getOne promise
+            $scope.$apply();
+            // Expect no errors
+            expect(controller.error).toBeFalsy();
+            // Data in controller should match to this returned by PhonebookService
+            expect(controller.id).toEqual(phonebookEntry._id);
+            expect(controller.name).toEqual(phonebookEntry.name);
+            expect(controller.lastName).toEqual(phonebookEntry.lastName);
+            expect(controller.number).toEqual(phonebookEntry.number);
+        });
+
+        it('should handle error when wrong ID was passed', function () {
+            // Create controller with ID, which is not included in mockData
+            var wrongId = mockData.length,
+                controller = createController(wrongId);
+            // Expect service's getOne method to have been called with wrong ID as a parameter
+            expect(mockPhonebookService.getOne).toHaveBeenCalledWith(wrongId);
+            // Resolve getOne promisr
+            $scope.$apply();
+            // Controller's ID should equal to this given in $routeParams
+            expect(controller.id).toEqual(wrongId);
+            // Should be an error
+            expect(controller.error).toBeTruthy();
+            // Controller's fields should be undefined
+            expect(controller.name).toBeUndefined();
+            expect(controller.lastName).toBeUndefined();
+            expect(controller.number).toBeUndefined();
+        });
+
+        it('should handle Save button click, call update method on service and redirect to main view', function () {
+            // Create controller
+            var controller = createController(phonebookEntry._id);
+            $scope.$apply();
+            // Watch on method path in $location
+            spyOn($location, 'path');
+            // Call controller's edit method
+            controller.save();
+            // Service's updateOne method should be called with proper parameter
+            expect(mockPhonebookService.updateOne).toHaveBeenCalledWith({
+                _id: controller.id,
+                name: controller.name,
+                lastName: controller.lastName,
+                number: controller.number
+            });
+            $scope.$apply();
+            // location change expected
+            expect($location.path).toHaveBeenCalledWith('/');
+        });
+    });
+
+    /*
+     * Unit tests for PhonebookAddController
+     */
+    describe('PhonebookAddController', function () {
+
     });
 });

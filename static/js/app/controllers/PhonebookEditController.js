@@ -6,6 +6,8 @@
 
     function PhonebookEditController($routeParams, $location, Logger, PhonebookService) {
         var that = this;
+        that.id = $routeParams.id;
+        that.error = false;
 
         function UpdateData(response) {
             var entry = response.data;
@@ -13,10 +15,12 @@
             that.name = entry.name;
             that.lastName = entry.lastName;
             that.number = entry.number;
+            that.error = false;
         }
 
         function DownloadError(response) {
             Logger.error('Can not download phone entry');
+            that.error = true;
         }
 
         function Save() {
@@ -38,7 +42,7 @@
         }
 
         that.save = Save;
-        PhonebookService.getOne($routeParams.id).then(UpdateData, DownloadError);
+        PhonebookService.getOne(that.id).then(UpdateData, DownloadError);
     }
 
     PhonebookEditController.$inject = ['$routeParams', '$location', 'Logger', 'PhonebookService'];
