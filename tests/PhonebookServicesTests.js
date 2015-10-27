@@ -1,4 +1,4 @@
-/*global describe, beforeEach, module, inject, it, expect, afterEach, spyOn */
+/*global describe, beforeEach, module, inject, it, expect, afterEach, spyOn, readJSON */
 describe('Phonebook API\'s', function () {
     'use strict';
 
