@@ -2,22 +2,13 @@
 describe('Phonebook API\'s', function () {
     'use strict';
 
-    var mockData = [{
-            id: 0,
-            name: 'Grzegorz',
-            lastName: 'Brzeczyszczykiewicz',
-            number: '+48 321654987'
-        }, {
-            id: 1,
-            name: 'John',
-            lastName: 'Smith',
-            number: '+48 123456789'
-        }],
+    var mockData,
         httpBackend;
 
     beforeEach(module('app.services'));
     beforeEach(inject(function ($injector) {
         httpBackend = $injector.get('$httpBackend');
+        mockData = readJSON('tests/mockData.json');
     }));
 
     describe('PhonebookService\'s', function () {

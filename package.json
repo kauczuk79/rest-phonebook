@@ -35,6 +35,7 @@
         "karma-firefox-launcher": "^0.1.6",
         "karma-ie-launcher": "^0.2.0",
         "karma-jasmine": "^0.3.6",
-        "karma-mocha-reporter": "^1.1.1"
+        "karma-mocha-reporter": "^1.1.1",
+        "karma-read-json": "^1.1.0"
     }
 }

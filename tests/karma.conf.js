@@ -18,10 +18,17 @@ module.exports = function (config) {
             'node_modules/angular/angular.js',
             'node_modules/angular-route/angular-route.js',
             'node_modules/angular-mocks/angular-mocks.js',
+            'node_modules/karma-read-json/karma-read-json.js',
             'static/js/App.js',
             'static/js/app/*.js',
             'static/js/app/**/*.js',
-            'tests/*.js'
+            'tests/*.js',
+            {
+                pattern: 'tests/*.json',
+                watched: true,
+                served: true,
+                included: false
+            }
         ],
 
 
@@ -59,7 +66,8 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome', 'Firefox', 'IE'],
+        //browsers: ['Chrome', 'Firefox', 'IE'],
+        browsers: ['Chrome'],
 
 
         // Continuous Integration mode
