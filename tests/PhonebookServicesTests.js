@@ -28,6 +28,7 @@ describe('Phonebook API\'s', function () {
             httpBackend.expectGET('/phonebook-api').respond(getAllResponse);
             phonebookService.getAll().then(function (response) {
                 expect(response.data).toEqual(getAllResponse);
+                expect(response.status).toEqual(200);
             });
             httpBackend.flush();
         });
@@ -38,9 +39,10 @@ describe('Phonebook API\'s', function () {
                 lastName: 'Lastname',
                 number: '+48 01234567891'
             };
-            httpBackend.expectPOST('/phonebook-api', newData).respond(200, '');
+            httpBackend.expectPOST('/phonebook-api', newData).respond(200, 'OK');
             phonebookService.createOne(newData).then(function (response) {
                 expect(response.status).toEqual(200);
+                expect(response.data).toEqual('OK');
             });
             httpBackend.flush();
         });
@@ -50,6 +52,7 @@ describe('Phonebook API\'s', function () {
                 getOneResponse = mockData[id];
             httpBackend.expectGET('/phonebook-api/' + id).respond(getOneResponse);
             phonebookService.getOne(id).then(function (response) {
+                expect(response.status).toEqual(200);
                 expect(response.data).toEqual(getOneResponse);
             });
             httpBackend.flush();
@@ -61,18 +64,20 @@ describe('Phonebook API\'s', function () {
                 lastName: 'Lastname',
                 number: '+48 01234567891'
             };
-            httpBackend.expectPUT('/phonebook-api', newData).respond(200, '');
+            httpBackend.expectPUT('/phonebook-api', newData).respond(200, 'OK');
             phonebookService.updateOne(newData).then(function (response) {
                 expect(response.status).toEqual(200);
+                expect(response.data).toEqual('OK');
             });
             httpBackend.flush();
         });
 
         it('deleteOne method should send DELETE request for one entry', function () {
             var id = 0;
-            httpBackend.expectDELETE('/phonebook-api/' + id).respond(200, '');
+            httpBackend.expectDELETE('/phonebook-api/' + id).respond(200, 'OK');
             phonebookService.deleteOne(id).then(function (response) {
                 expect(response.status).toEqual(200);
+                expect(response.data).toEqual('OK');
             });
             httpBackend.flush();
         });

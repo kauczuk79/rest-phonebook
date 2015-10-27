@@ -1,12 +1,12 @@
 [
     {
-        "id": 0,
+        "_id": 0,
         "name": "Grzegorz",
         "lastName": "Brzeczyszczykiewicz",
         "number": "+48 321654987"
     },
     {
-        "id": 1,
+        "_id": 1,
         "name": "John",
         "lastName": "Smith",
         "number": "+48 123456789"
