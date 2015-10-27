@@ -80,7 +80,7 @@ describe('Phonebook API\'s', function () {
         });
 
         //TODO: Error handling
-        it('should call delete on PhonebookService', function () {
+        it('should call delete on PhonebookService when deleteEntry was called', function () {
             var id = mockData[0].id;
             scope.$root.$digest();
             expect(controller.list.length).toEqual(2);
@@ -140,7 +140,7 @@ describe('Phonebook API\'s', function () {
             expect(controller.number).toEqual(expectedResponse.number);
         });
 
-        it('should send GET request and contain response data', function () {
+        it('should handle error when wrong ID was passed', function () {
             var wrongId = mockData.length,
                 controller = createController(wrongId);
             expect(mockPhonebookService.getOne).toHaveBeenCalledWith(wrongId);
