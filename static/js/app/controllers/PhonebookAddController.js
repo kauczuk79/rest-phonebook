@@ -8,6 +8,7 @@
         that.name = '';
         that.lastName = '';
         that.number = '';
+        that.error = false;
 
         function AddPhoneEntry() {
             var entry = {
@@ -22,8 +23,10 @@
 
             function PrintError(response) {
                 Logger.error('Can not add phone entry');
+                that.error = true;
             }
 
+            that.error = false;
             PhonebookService.createOne(entry).then(ChangeLocation, PrintError);
         }
         that.add = AddPhoneEntry;

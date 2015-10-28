@@ -31,48 +31,51 @@ describe('Phonebook API\'s', function () {
         mockPhonebookService.deleteOne.and.callFake(function (id) {
             // Return promise
             return $q(function (resolve, reject) {
-                // If mockData contains entry with given ID, resolve promise, othervise reject it.
-                if (mockData[id] !== undefined) {
-                    resolve({
-                        status: 200
-                    });
-                } else {
+                // If mockData does not contain entry with given ID, reject it ...
+                if (mockData[id] === undefined) {
                     reject({
                         status: 404
                     });
                 }
+                // ... otherwise resolve it
+                resolve({
+                    status: 200
+                });
             });
         });
         // Call fake function when getOne was called.
         mockPhonebookService.getOne.and.callFake(function (id) {
             return $q(function (resolve, reject) {
-                if (mockData[id] !== undefined) {
-                    resolve({
-                        data: mockData[id]
-                    });
-                } else {
+                if (mockData[id] === undefined) {
                     reject({
                         data: '',
                         status: 404
                     });
                 }
+                resolve({
+                    data: mockData[id]
+                });
             });
         });
         mockPhonebookService.updateOne.and.callFake(function (data) {
             return $q(function (resolve, reject) {
-                if ((data._id !== undefined) && (data.name !== undefined) && (data.lastName !== undefined) && (data.number !== undefined)) {
-                    resolve({
-                        status: 200
-                    });
-                } else {
+                if ((data._id === undefined) || (data.name === undefined) || (data.lastName === undefined) || (data.number === undefined)) {
                     reject({
                         status: 404
                     });
                 }
+                resolve({
+                    status: 200
+                });
             });
         });
         mockPhonebookService.createOne.and.callFake(function (data) {
             return $q(function (resolve, reject) {
+                if ((data.name === undefined) || (data.name === '') || (data.lastName === undefined) || (data.lastName === '') || (data.number === undefined) || (data.number === '')) {
+                    reject({
+                        status: 404
+                    });
+                }
                 resolve({
                     status: 200
                 });
@@ -93,10 +96,9 @@ describe('Phonebook API\'s', function () {
                 $controller = $injector.get('$controller');
             // Create new scope for controller
             $scope = $rootScope.$new();
-            // Create controller and inject created scope and mockPhonebookService as PhonebookService
+            // Create controller and inject mockPhonebookService as PhonebookService
             controller = $controller('PhonebookListController', {
-                PhonebookService: mockPhonebookService,
-                $scope: $scope
+                PhonebookService: mockPhonebookService
             });
         }));
 
@@ -293,7 +295,7 @@ describe('Phonebook API\'s', function () {
                 controller = createController(wrongId);
             // Expect service's getOne method to have been called with wrong ID as a parameter
             expect(mockPhonebookService.getOne).toHaveBeenCalledWith(wrongId);
-            // Resolve getOne promisr
+            // Resolve getOne promise
             $scope.$apply();
             // Controller's ID should equal to this given in $routeParams
             expect(controller.id).toEqual(wrongId);
@@ -320,6 +322,7 @@ describe('Phonebook API\'s', function () {
                 lastName: controller.lastName,
                 number: controller.number
             });
+            // Resolve updateOne promise
             $scope.$apply();
             // location change expected
             expect($location.path).toHaveBeenCalledWith('/');
@@ -330,6 +333,72 @@ describe('Phonebook API\'s', function () {
      * Unit tests for PhonebookAddController
      */
     describe('PhonebookAddController', function () {
+        var controller,
+            $scope;
 
+        beforeEach(inject(function ($injector) {
+            // Get instance of dependencies from $provide
+            var $controller = $injector.get('$controller'),
+                $rootScope = $injector.get('$rootScope');
+            // Create scope
+            $scope = $rootScope.$new();
+            // Create controller and inject mockPhonebookService as PhonebookService
+            controller = $controller('PhonebookAddController', {
+                PhonebookService: mockPhonebookService
+            });
+        }));
+
+        it('should be properly initialized', function () {
+            // Functions should be defined
+            expect(controller.add).toBeDefined();
+            // No error expected
+            expect(controller.error).toBeFalsy();
+            // Empty entry data fields
+            expect(controller.name).toEqual('');
+            expect(controller.lastName).toEqual('');
+            expect(controller.number).toEqual('');
+        });
+
+        it('should save controller\'s data using createOne method on PhonebookService and redirect to main view', function () {
+            // Simulate change of scope variables
+            controller.name = 'Name';
+            controller.lastName = 'Surname';
+            controller.number = '+12 123456789';
+            // Watch on method path in $location
+            spyOn($location, 'path');
+            // Add data
+            controller.add();
+            // Should call createOne method on PhonebookService with proper data
+            expect(mockPhonebookService.createOne).toHaveBeenCalledWith({
+                name: controller.name,
+                lastName: controller.lastName,
+                number: controller.number
+            });
+            // Resolve createOne promise
+            $scope.$apply();
+            // expect no errors
+            expect(controller.error).toBeFalsy();
+            // location change expected
+            expect($location.path).toHaveBeenCalledWith('/');
+        });
+
+        it('should throw error when createOne\'s promise was rejected', function () {
+            // Leave empty data about new entry
+            // Watch on method path in $location
+            spyOn($location, 'path');
+            controller.add();
+            // Should call createOne method on PhonebookService with proper data
+            expect(mockPhonebookService.createOne).toHaveBeenCalledWith({
+                name: '',
+                lastName: '',
+                number: ''
+            });
+            // Reject createOne promise
+            $scope.$apply();
+            // Error expected
+            expect(controller.error).toBeTruthy();
+            // location change expected
+            expect($location.path).not.toHaveBeenCalled();
+        });
     });
 });
