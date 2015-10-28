@@ -18,7 +18,7 @@ describe('Phonebook API\'s', function () {
         $location = $injector.get('$location');
         $q = $injector.get('$q');
         // Load mock data from file
-        mockData = readJSON('tests/mockData.json');
+        mockData = readJSON('tests/karma/mockData.json');
         // Create spy object with given list of methods
         mockPhonebookService = jasmine.createSpyObj('PhonebookService', ['getAll', 'deleteOne', 'getOne', 'updateOne', 'createOne']);
         // getAll function returns promise, which is always resolved

@@ -22,9 +22,9 @@ module.exports = function (config) {
             'static/js/App.js',
             'static/js/app/*.js',
             'static/js/app/**/*.js',
-            'tests/*.js',
+            'tests/karma/*.js',
             {
-                pattern: 'tests/*.json',
+                pattern: 'tests/karma/*.json',
                 watched: true,
                 served: true,
                 included: false
